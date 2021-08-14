@@ -94,6 +94,7 @@ public class MainManager : MonoBehaviour
         if (GameData.instance != null)
         {
             GameData.instance.SortScore(m_Points);
+            GameData.instance.SaveGameData();
         }
     }
 
