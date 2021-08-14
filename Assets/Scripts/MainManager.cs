@@ -12,6 +12,7 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text highScoreText;
     
     private bool m_Started = false;
     private int m_Points;
@@ -36,6 +37,14 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        if (GameData.instance != null)
+        {
+            DisplayHighScore();
+        }
+        else
+        {
+            highScoreText.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -59,18 +68,44 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
+            }
         }
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"score : {m_Points}";
+        if (GameData.instance != null)
+        {
+            DisplayHighScore();
+        }
     }
 
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+
+        // Cement new high score list
+        if (GameData.instance != null)
+        {
+            GameData.instance.SortScore(m_Points);
+        }
+    }
+
+    public void DisplayHighScore()
+    {
+        if (m_Points > GameData.instance.currentScoreList[0].playerScore)
+        {
+            highScoreText.text = "high score: " + GameData.instance.currentPlayerName + " : " + m_Points;
+        }
+        else
+        {
+            highScoreText.text = "High Score: " + GameData.instance.currentScoreList[0].playerName + " : " + GameData.instance.currentScoreList[0].playerScore;
+        }
     }
 }
