@@ -22,7 +22,7 @@ public class GameData : MonoBehaviour
         public ScoreEntry[] highScoreList;
     }
 
-    public ScoreEntry[] currentScoreList = new ScoreEntry[highScoreLimit];
+    public ScoreEntry[] currentScoreList;
     public string currentPlayerName;
 
     void Awake()
@@ -61,8 +61,8 @@ public class GameData : MonoBehaviour
             string jsonFile = File.ReadAllText(path);
             SaveData thisData = JsonUtility.FromJson<SaveData>(jsonFile);
 
-            SetPlayerName(thisData.initialPlayerName);
             currentScoreList = thisData.highScoreList;
+            SetPlayerName(thisData.initialPlayerName);
         }
     }
 

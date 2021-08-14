@@ -104,9 +104,13 @@ public class MainManager : MonoBehaviour
         {
             highScoreText.text = "high score: " + GameData.instance.currentPlayerName + " : " + m_Points;
         }
+        else if (GameData.instance.currentScoreList[0].playerScore > 0)
+        {
+            highScoreText.text = "high score: " + GameData.instance.currentScoreList[0].playerName + " : " + GameData.instance.currentScoreList[0].playerScore;
+        }
         else
         {
-            highScoreText.text = "High Score: " + GameData.instance.currentScoreList[0].playerName + " : " + GameData.instance.currentScoreList[0].playerScore;
+            highScoreText.text = "high score: 0";
         }
     }
 }
